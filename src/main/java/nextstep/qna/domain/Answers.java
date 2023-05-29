@@ -27,8 +27,8 @@ public class Answers {
         return new Answers(this.answers);
     }
 
-    public void deleteAll() {
-        this.answers.forEach(Answer::deleteSelf);
+    public void deleteAll(NsUser loginUser) {
+        this.answers.forEach(answer -> answer.deleteSelf(loginUser));
     }
 
     public List<DeleteHistory> deleteHistories() {

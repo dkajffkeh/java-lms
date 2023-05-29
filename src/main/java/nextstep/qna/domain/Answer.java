@@ -3,11 +3,14 @@ package nextstep.qna.domain;
 import static nextstep.qna.domain.ContentType.ANSWER;
 
 import nextstep.common.entity.BaseEntity;
+import nextstep.qna.CannotDeleteException;
 import nextstep.qna.NotFoundException;
 import nextstep.qna.UnAuthorizedException;
 import nextstep.users.domain.NsUser;
 
 public class Answer extends BaseEntity {
+
+    private static final String OTHER_USER_ANSWER_MSG = "다른 사람이 쓴 답변이 있어 삭제할 수 없습니다.";
 
     private Question question;
 
@@ -36,8 +39,15 @@ public class Answer extends BaseEntity {
         return super.id();
     }
 
-    public void deleteSelf() {
+    public void deleteSelf(NsUser loginUser) {
+        if(!isOwner(loginUser)) {
+            throw new CannotDeleteException(OTHER_USER_ANSWER_MSG);
+        }
         deleteEntity();
+    }
+
+    private boolean isOwner(NsUser loginUser) {
+        return loginUser.equals(this.writer);
     }
 
     public DeleteHistory deleteHistory() {

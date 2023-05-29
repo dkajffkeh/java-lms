@@ -42,7 +42,7 @@ public class AnswersTest {
     @Test
     @DisplayName("질문 전체를 삭제했을 경우 Answer 의 삭제값이 전체 True 로 상태값이 변경된다.")
     void deleteAllTest() {
-        singleAnswer.deleteAll();
+        singleAnswer.deleteAll(a_user);
 
         final Optional<Answer> notDeletedAnswer = singleAnswer.immutableGet()
                 .stream()
@@ -63,7 +63,7 @@ public class AnswersTest {
     @Test
     @DisplayName("답변에 대해 삭제 내역을 리턴한다.")
     void deleteHistoriesTest() {
-        singleAnswer.deleteAll();
+        singleAnswer.deleteAll(a_user);
         assertThat(singleAnswer.deleteHistories())
                 .isEqualTo(new ArrayList<>(List.of(
                         new DeleteHistory(ANSWER,null, a_user)

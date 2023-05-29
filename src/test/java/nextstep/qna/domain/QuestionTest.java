@@ -35,7 +35,7 @@ public class QuestionTest {
     @Test
     @DisplayName("질문을 삭제할 권한이 없는경우 예외를 발생한다.")
     void checkIsOwnerTest() {
-        assertThatThrownBy(() -> a_user_question.deleteQuestion(b_user))
+        assertThatThrownBy(() -> a_user_question.delete(b_user))
                 .isInstanceOf(CannotDeleteException.class)
                 .hasMessage("질문을 삭제할 권한이 없습니다.");
     }
@@ -44,7 +44,7 @@ public class QuestionTest {
     @DisplayName("질문에 대해 다른사람의 답변이 있는경우 익셉션을 발생한다.")
     void checkHasOtherUserAnswerTest() {
         a_user_question.addAnswer(b_user_answer);
-        assertThatThrownBy(() -> a_user_question.deleteQuestion(a_user))
+        assertThatThrownBy(() -> a_user_question.delete(a_user))
                 .isInstanceOf(CannotDeleteException.class)
                 .hasMessage("다른 사람이 쓴 답변이 있어 삭제할 수 없습니다.");
     }
@@ -53,7 +53,7 @@ public class QuestionTest {
     @DisplayName("질문이 삭제될 경우 그 하위 등록된 답변또한 전체 삭제가 이뤄진다.")
     void deleteQuestionTest() {
         a_user_question.addAnswer(a_user_answer);
-        a_user_question.deleteQuestion(a_user);
+        a_user_question.delete(a_user);
 
         assertThat(a_user_question.deleteHistories()).hasSize(2);
     }
@@ -70,7 +70,7 @@ public class QuestionTest {
     void deleteHistoriesTest() {
         a_user_question.addAnswer(a_user_answer);
         // 삭제
-        a_user_question.deleteQuestion(a_user);
+        a_user_question.delete(a_user);
 
         assertThat(a_user_question.deleteHistories()).hasSize(2);
     }

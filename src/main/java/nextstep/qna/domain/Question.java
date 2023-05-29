@@ -12,8 +12,6 @@ public class Question extends BaseEntity {
 
     private static final String NO_AUTH_MSG = "질문을 삭제할 권한이 없습니다.";
 
-    private static final String OTHER_USER_ANSWER_MSG = "다른 사람이 쓴 답변이 있어 삭제할 수 없습니다.";
-
     private QuestionArticle questionArticle;
 
     private NsUser writer;
@@ -47,23 +45,9 @@ public class Question extends BaseEntity {
         return !this.writer.equals(loginUser);
     }
 
-    public void deleteQuestion(NsUser loginUser) {
-        checkIsNotOwner(loginUser);
-        checkHasOthersAnswer(loginUser);
-        deleteQuestion();
-        deleteAnswers();
-    }
-
-    private void checkIsNotOwner(NsUser loginUser) {
-        if(isNotOwner(loginUser)) {
-            throw new CannotDeleteException(NO_AUTH_MSG);
-        }
-    }
-
-    private void checkHasOthersAnswer(NsUser loginUser) {
-        if(this.answers.hasOtherUserAnswer(loginUser)) {
-            throw new CannotDeleteException(OTHER_USER_ANSWER_MSG);
-        }
+    public void delete(NsUser loginUser) {
+        deleteQuestion(loginUser);
+        deleteAnswers(loginUser);
     }
 
     public List<DeleteHistory> deleteHistories() {
@@ -76,12 +60,15 @@ public class Question extends BaseEntity {
         return new DeleteHistories(deleteHistories).immutableGet();
     }
 
-    private void deleteQuestion() {
+    private void deleteQuestion(NsUser loginUser) {
+        if(isNotOwner(loginUser)) {
+            throw new CannotDeleteException(NO_AUTH_MSG);
+        }
         super.deleteEntity();
     }
 
-    private void deleteAnswers() {
-        this.answers.deleteAll();
+    private void deleteAnswers(NsUser loginUser) {
+        this.answers.deleteAll(loginUser);
     }
 
     public boolean isQuestionDeleted() {
