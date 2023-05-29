@@ -20,35 +20,31 @@ public class Answer extends BaseEntity {
     }
 
     public Answer(Long id, NsUser writer, Question question, String contents) {
+        super(id);
         if(writer == null) {
             throw new UnAuthorizedException();
         }
         if(question == null) {
             throw new NotFoundException();
         }
-        this.id = id;
         this.writer = writer;
         this.question = question;
         this.contents = contents;
     }
 
     public Long getId() {
-        return id;
+        return super.id();
     }
 
     public void deleteSelf() {
-        this.deleted = true;
+        deleteEntity();
     }
 
     public DeleteHistory deleteHistory() {
-        if(isDeleted()) {
-            return new DeleteHistory(ANSWER, this.id, this.writer);
+        if(isEntityDeleted()) {
+            return new DeleteHistory(ANSWER, super.id(), this.writer);
         }
         return new DeleteHistory();
-    }
-
-    public boolean isDeleted() {
-        return deleted;
     }
 
     public boolean isNotOwner(NsUser writer) {

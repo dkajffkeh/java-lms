@@ -6,12 +6,27 @@ import java.time.LocalDateTime;
 
 public class BaseEntity {
 
-    protected Long id;
+    private Long id;
 
-    protected boolean deleted = false;
+    private boolean deleted = false;
 
-    protected LocalDateTime createdDate = now();
+    private LocalDateTime createdDate = now();
 
-    protected LocalDateTime updatedDate;
+    private LocalDateTime updatedDate;
 
+    public BaseEntity(Long id) {
+        this.id = id;
+    }
+
+    public Long id() {
+        return this.id;
+    }
+
+    public boolean isEntityDeleted() {
+        return deleted;
+    }
+
+    public void deleteEntity() {
+        this.deleted = true;
+    }
 }

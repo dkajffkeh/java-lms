@@ -46,7 +46,7 @@ public class AnswersTest {
 
         final Optional<Answer> notDeletedAnswer = singleAnswer.immutableGet()
                 .stream()
-                .filter(answer -> !answer.isDeleted())
+                .filter(answer -> !answer.isEntityDeleted())
                 .findFirst();
 
         assertThat(notDeletedAnswer.isEmpty())

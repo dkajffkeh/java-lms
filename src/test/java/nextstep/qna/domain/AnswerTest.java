@@ -22,7 +22,7 @@ public class AnswerTest {
     @DisplayName("답변내역을 삭제한다.")
     void deleteTest() {
         a_user_answer.deleteSelf();
-        assertThat(a_user_answer.isDeleted()).isTrue();
+        assertThat(a_user_answer.isEntityDeleted()).isTrue();
     }
 
     @Test

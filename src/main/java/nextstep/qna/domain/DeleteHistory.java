@@ -19,6 +19,7 @@ public class DeleteHistory extends BaseEntity {
     }
 
     public DeleteHistory(ContentMeta contentMeta, NsUser deletedBy) {
+        super(0L);
         this.contentMeta = contentMeta;
         this.deletedBy = deletedBy;
     }

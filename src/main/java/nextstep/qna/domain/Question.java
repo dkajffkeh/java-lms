@@ -1,6 +1,5 @@
 package nextstep.qna.domain;
 
-import static java.time.LocalDateTime.now;
 import static nextstep.qna.domain.ContentType.QUESTION;
 
 import java.util.ArrayList;
@@ -8,8 +7,6 @@ import java.util.List;
 import nextstep.common.entity.BaseEntity;
 import nextstep.qna.CannotDeleteException;
 import nextstep.users.domain.NsUser;
-
-import java.time.LocalDateTime;
 
 public class Question extends BaseEntity {
 
@@ -33,7 +30,7 @@ public class Question extends BaseEntity {
     }
 
     public Question(Long id, NsUser writer, QuestionArticle questionArticle) {
-        this.id = id;
+        super(id);
         this.writer = writer;
         this.questionArticle = questionArticle;
     }
@@ -43,7 +40,7 @@ public class Question extends BaseEntity {
     }
 
     public Long getId() {
-        return super.id;
+        return super.id();
     }
 
     private boolean isNotOwner(NsUser loginUser) {
@@ -74,13 +71,13 @@ public class Question extends BaseEntity {
             return new DeleteHistories(new ArrayList<>()).immutableGet();
         }
         List<DeleteHistory> deleteHistories = new ArrayList<>();
-        deleteHistories.add(new DeleteHistory(QUESTION, this.id, this.writer));
+        deleteHistories.add(new DeleteHistory(QUESTION, super.id(), this.writer));
         deleteHistories.addAll(this.answers.deleteHistories());
         return new DeleteHistories(deleteHistories).immutableGet();
     }
 
     private void deleteQuestion() {
-        this.deleted = true;
+        super.deleteEntity();
     }
 
     private void deleteAnswers() {
@@ -88,8 +85,8 @@ public class Question extends BaseEntity {
     }
 
     public boolean isQuestionDeleted() {
-        return deleted && this.answers.immutableGet()
-                .stream().allMatch(Answer::isDeleted);
+        return super.isEntityDeleted() && this.answers.immutableGet()
+                .stream().allMatch(Answer::isEntityDeleted);
     }
 
     @Override
