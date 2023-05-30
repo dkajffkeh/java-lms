@@ -2,6 +2,7 @@ package nextstep.session.domain;
 
 import static java.time.LocalDateTime.now;
 import static nextstep.session.domain.SessionProgressStatus.OPEN;
+import static nextstep.session.domain.SessionProgressStatus.sessionStatusByTime;
 
 import java.time.LocalDateTime;
 
@@ -16,8 +17,8 @@ public class SessionOpenPeriod {
         this.endDate = endDate;
     }
 
-    public SessionProgressStatus sessionProgressStatus() {
-        return SessionProgressStatus.sessionStatusByTime(startDate,endDate, now());
+    private SessionProgressStatus sessionProgressStatus() {
+        return sessionStatusByTime(startDate,endDate, now());
     }
 
     private boolean isSessionOpen() {

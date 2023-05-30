@@ -11,18 +11,18 @@ public class Session {
 
     private final SessionOpenPeriod sessionOpenPeriod;
 
-    private final CoverImage coverImageUrl;
+    private final CoverImage coverImage;
 
     private final PricingPlan pricingPlan;
 
     private final Students students;
 
     public Session(Course course, SessionOpenPeriod sessionOpenPeriod,
-            CoverImage coverImageUrl, PricingPlan pricingPlan,
+            CoverImage coverImage, PricingPlan pricingPlan,
             Students students) {
         this.course = course;
         this.sessionOpenPeriod = sessionOpenPeriod;
-        this.coverImageUrl = coverImageUrl;
+        this.coverImage = coverImage;
         this.pricingPlan = pricingPlan;
         this.students = students;
     }
@@ -31,5 +31,6 @@ public class Session {
         if(!sessionOpenPeriod.isEnrollAvailable()) {
             throw new IllegalArgumentException(NOT_OPEN_MSG);
         }
+        this.students.add(student);
     }
 }
