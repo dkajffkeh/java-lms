@@ -18,6 +18,12 @@ public class BaseEntity {
         this.id = id;
     }
 
+    public BaseEntity(Long id, LocalDateTime createdDate, LocalDateTime updatedDate) {
+        this.id = id;
+        this.createdDate = createdDate;
+        this.updatedDate = updatedDate;
+    }
+
     public Long id() {
         return this.id;
     }
@@ -28,5 +34,9 @@ public class BaseEntity {
 
     public void deleteEntity() {
         this.deleted = true;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return this.createdDate;
     }
 }
