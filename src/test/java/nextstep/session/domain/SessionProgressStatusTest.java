@@ -28,21 +28,21 @@ class SessionProgressStatusTest {
     @Test
     @DisplayName("현재 시간이 시작시간 이전이면 강의는 준비중 상태이다.")
     void preparingTest() {
-        assertThat(SessionProgressStatus.getByTime(FROM,TO,PREPARING))
+        assertThat(SessionProgressStatus.sessionStatusByTime(FROM,TO,PREPARING))
                 .isEqualTo(SessionProgressStatus.PREPARING);
     }
 
     @Test
     @DisplayName("현재 시간이 시작시간과 종료시간 중간에 있을 경우 강의는 오픈 상태이다.")
     void openTest() {
-        assertThat(SessionProgressStatus.getByTime(FROM,TO,OPEN))
+        assertThat(SessionProgressStatus.sessionStatusByTime(FROM,TO,OPEN))
                 .isEqualTo(SessionProgressStatus.OPEN);
     }
 
     @Test
     @DisplayName("현재 시간이 종료시간 이후라면 강의는 닫히게 된다.")
     void closedTest() {
-        assertThat(SessionProgressStatus.getByTime(FROM,TO,CLOSED))
+        assertThat(SessionProgressStatus.sessionStatusByTime(FROM,TO,CLOSED))
                 .isEqualTo(SessionProgressStatus.CLOSED);
     }
 }

@@ -9,7 +9,7 @@ public enum SessionProgressStatus {
     CLOSED,
     ;
 
-    public static SessionProgressStatus getByTime(LocalDateTime from,
+    public static SessionProgressStatus sessionStatusByTime(LocalDateTime from,
             LocalDateTime to,
             LocalDateTime target) {
 

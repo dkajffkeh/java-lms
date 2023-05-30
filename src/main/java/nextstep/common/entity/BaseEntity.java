@@ -3,6 +3,7 @@ package nextstep.common.entity;
 import static java.time.LocalDateTime.now;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class BaseEntity {
 
@@ -38,5 +39,22 @@ public class BaseEntity {
 
     public LocalDateTime getCreatedDate() {
         return this.createdDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        BaseEntity that = (BaseEntity) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
