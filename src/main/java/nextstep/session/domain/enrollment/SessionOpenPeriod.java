@@ -1,10 +1,11 @@
-package nextstep.session.domain;
+package nextstep.session.domain.enrollment;
 
 import static java.time.LocalDateTime.now;
 import static nextstep.session.domain.SessionProgressStatus.OPEN;
 import static nextstep.session.domain.SessionProgressStatus.sessionStatusByTime;
 
 import java.time.LocalDateTime;
+import nextstep.session.domain.SessionProgressStatus;
 
 public class SessionOpenPeriod {
 

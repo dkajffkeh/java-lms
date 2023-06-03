@@ -1,30 +1,26 @@
-package nextstep.session.domain;
+package nextstep.session.domain.enrollment;
 
-import java.util.ArrayList;
 import java.util.List;
 import nextstep.users.domain.NsUser;
 
 public class Students {
 
-    protected static final int MAX_ENROLLMENT = 10;
-
     private static final String OVER_MAX = "수강 가능한 최대 인원을 초과하였습니다.";
+
+    private final Capacity capacity;
 
     private final List<NsUser> students;
 
-    public Students() {
-        this(new ArrayList<>());
+    public Students(List<NsUser> students, int capacity) {
+        this(students, new Capacity(capacity));
     }
 
-    public Students(List<NsUser> students) {
-        if(isMax(students)) {
+    public Students(List<NsUser> students, Capacity capacity) {
+        if(capacity.isFull(students.size())) {
             throw new IllegalArgumentException(OVER_MAX);
         }
+        this.capacity = capacity;
         this.students = students;
-    }
-
-    private boolean isMax(List<NsUser> students) {
-        return students.size() > MAX_ENROLLMENT;
     }
 
     public int size() {
@@ -33,6 +29,6 @@ public class Students {
 
     public Students add(NsUser student) {
         this.students.add(student);
-        return new Students(this.students);
+        return new Students(this.students, this.capacity);
     }
 }

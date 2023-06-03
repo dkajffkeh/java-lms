@@ -5,9 +5,10 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import nextstep.session.domain.Session;
-import nextstep.session.domain.SessionOpenPeriod;
-import nextstep.session.domain.Students;
+import nextstep.session.domain.enrollment.SessionOpenPeriod;
+import nextstep.session.domain.enrollment.Students;
 import nextstep.users.domain.NsUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -22,10 +23,10 @@ class SessionTest {
     @BeforeEach
     void init() {
         closedSession = new Session(null, new FakeClosed(now(), now()),
-                null, null, new Students());
+                null, null, new Students(new ArrayList<>(), 10));
 
         openSession = new Session(null, new FakeOpen(now(), now()),
-                null, null, new Students());
+                null, null, new Students(new ArrayList<>(), 10));
     }
 
     @Test

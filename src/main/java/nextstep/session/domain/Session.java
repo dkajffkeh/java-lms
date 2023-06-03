@@ -1,36 +1,36 @@
 package nextstep.session.domain;
 
 import nextstep.courses.domain.Course;
+import nextstep.session.domain.enrollment.Enrollment;
+import nextstep.session.domain.enrollment.SessionOpenPeriod;
+import nextstep.session.domain.enrollment.Students;
 import nextstep.users.domain.NsUser;
 
 public class Session {
 
-    private static final String NOT_OPEN_MSG = "지금은 수강신청 가능 기간이 아닙니다.";
-
     private final Course course;
-
-    private final SessionOpenPeriod sessionOpenPeriod;
 
     private final CoverImage coverImage;
 
     private final PricingPlan pricingPlan;
 
-    private final Students students;
+    private final Enrollment enrollment;
 
     public Session(Course course, SessionOpenPeriod sessionOpenPeriod,
             CoverImage coverImage, PricingPlan pricingPlan,
             Students students) {
+        this(course, coverImage, pricingPlan, new Enrollment(students, sessionOpenPeriod));
+    }
+
+    public Session(Course course, CoverImage coverImage,
+            PricingPlan pricingPlan, Enrollment enrollment) {
         this.course = course;
-        this.sessionOpenPeriod = sessionOpenPeriod;
         this.coverImage = coverImage;
         this.pricingPlan = pricingPlan;
-        this.students = students;
+        this.enrollment = enrollment;
     }
 
     public void enrollSession(NsUser student) {
-        if(!sessionOpenPeriod.isEnrollAvailable()) {
-            throw new IllegalArgumentException(NOT_OPEN_MSG);
-        }
-        this.students.add(student);
+        this.enrollment.enrollSession(student);
     }
 }
